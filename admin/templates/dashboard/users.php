@@ -31,12 +31,12 @@
 			</tr>
 
 			<tr>
-				<td class="b"><a href="<?php echo admin_url('users.php?status=awaiting_admin_review:'); ?>"><?php echo $ultimatemember->query->count_users_by_status('awaiting_admin_review:'); ?></a></td>
+				<td class="first b"><a href="<?php echo admin_url('users.php?status=awaiting_admin_review:'); ?>"><?php echo $ultimatemember->query->count_users_by_status('awaiting_admin_review:'); ?></a></td>
 				<td class="last t"><a href="<?php echo admin_url('users.php?status=awaiting_admin_review:'); ?>" class="warning"><?php _e('Pending Role Review','ultimatemember'); ?></a></td>
 			</tr>
 
 			<tr>
-				<td class="b"><a href="<?php echo admin_url('users.php?status=awaiting_email_confirmation'); ?>"><?php echo $ultimatemember->query->count_users_by_status('awaiting_email_confirmation'); ?></a></td>
+				<td class="first b"><a href="<?php echo admin_url('users.php?status=awaiting_email_confirmation'); ?>"><?php echo $ultimatemember->query->count_users_by_status('awaiting_email_confirmation'); ?></a></td>
 				<td class="last t"><a href="<?php echo admin_url('users.php?status=awaiting_email_confirmation'); ?>" class="warning"><?php _e('Awaiting E-mail Confirmation','ultimatemember'); ?></a></td>
 			</tr>
 

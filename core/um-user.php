@@ -576,6 +576,7 @@ class UM_User {
 		$default_role = um_get_option("default_role");
 		$this->set_role($default_role);
 		$ultimatemember->mail->send( um_user('user_email'), 'pending_email' );
+		$this->auto_login(um_user('ID'));
 	}
 
 

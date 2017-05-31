@@ -92,7 +92,17 @@ class UM_Admin_Users {
 								AND {$wpdb->usermeta}.meta_value = 'pending')",
 						$query->query_where
 			);
-			} else {
+			} elseif ($status == 'awaiting_admin_review:') {
+				$query->query_where = str_replace('WHERE 1=1',
+					"WHERE 1=1 AND {$wpdb->users}.ID IN (
+							 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta
+								WHERE {$wpdb->usermeta}.meta_key = 'account_status'
+								AND {$wpdb->usermeta}.meta_value LIKE '%$status%')",
+					$query->query_where
+				);
+			}
+			else
+			 {
 			$query->query_where = str_replace('WHERE 1=1',
 						"WHERE 1=1 AND {$wpdb->users}.ID IN (
 							 SELECT {$wpdb->usermeta}.user_id FROM $wpdb->usermeta
@@ -119,6 +129,7 @@ class UM_Admin_Users {
 		$old_views = $views;
 		$views     = array();
 
+		$_REQUEST['status'] = urldecode($_REQUEST['status']);
 		if ( !isset($_REQUEST[ $this->custom_role ]) && !isset($_REQUEST['status']) ) {
 			$views['all'] = '<a href="'.admin_url('users.php').'" class="current">All <span class="count">('.$ultimatemember->query->count_users().')</span></a>';
 		} else {
