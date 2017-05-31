@@ -128,6 +128,7 @@ class UM_Admin_Users {
 		$status = array(
 			'approved' => __('Approved','ultimatemember'),
 			'awaiting_admin_review' => __('Pending review','ultimatemember'),
+			'awaiting_admin_review:' => __('Pending role review','ultimatemember'),
 			'awaiting_email_confirmation' => __('Waiting e-mail confirmation','ultimatemember'),
 			'inactive' => __('Inactive','ultimatemember'),
 			'rejected' => __('Rejected','ultimatemember')
@@ -138,7 +139,9 @@ class UM_Admin_Users {
 		foreach( $status as $k => $v ) {
 			if ( isset($_REQUEST['status']) && $_REQUEST['status'] == $k ) {
 				$current = 'class="current"';
-			} else {
+			} elseif(strpos($_REQUEST['status'],'awaiting_admin_review:') === 0){
+				$current = 'class="current"';
+			}else {
 				$current = '';
 			}
 

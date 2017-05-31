@@ -131,7 +131,11 @@ class UM_Query {
 				update_user_meta( $user, 'account_status', 'approved' );
 			}
 		} else {
-			$args['meta_query'][] = array(array('key' => 'account_status','value' => $status,'compare' => '='));
+            if($status == 'awaiting_admin_review:'){
+                $args['meta_query'][] = array(array('key' => 'account_status','value' => $status,'compare' => 'LIKE'));
+            }else{
+                $args['meta_query'][] = array(array('key' => 'account_status','value' => $status,'compare' => '='));
+            }
 		}
 		$users = new WP_User_Query( $args );
 		return count($users->results);

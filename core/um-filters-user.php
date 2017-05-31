@@ -35,6 +35,11 @@
 				$actions['um_approve_membership'] = array( 'label' => __('Approve Membership','ultimatemember') );
 				$actions['um_reject_membership'] = array( 'label' => __('Reject Membership','ultimatemember') );
 			}
+
+            if ( strpos(um_user('account_status'), 'awaiting_admin_review:') === 0 ){
+                $actions['um_approve_membership'] = array( 'label' => __('Approve Membership','ultimatemember') );
+                $actions['um_reject_membership'] = array( 'label' => __('Reject Membership','ultimatemember') );
+            }
 			
 			if ( um_user('account_status') == 'rejected' ) {
 				$actions['um_approve_membership'] = array( 'label' => __('Approve Membership','ultimatemember') );
