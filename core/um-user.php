@@ -248,6 +248,10 @@ class UM_User {
 				$this->usermeta['account_status_name'][0] = __('Pending Review','ultimatemember');
 			}
 
+			if ( strpos($this->usermeta['account_status'][0],'awaiting_admin_review:') === 0 ) {
+				$this->usermeta['account_status_name'][0] = __('Pending Role Review','ultimatemember');
+			}
+
 			if ( $this->usermeta['account_status'][0] == 'rejected' ) {
 				$this->usermeta['account_status_name'][0] = __('Membership Rejected','ultimatemember');
 			}
@@ -489,7 +493,10 @@ class UM_User {
 		if ( um_user('account_status') == 'awaiting_admin_review' ) {
 			$this->password_reset_hash();
 			$ultimatemember->mail->send( um_user('user_email'), 'approved_email' );
-
+		} else if(strpos(um_user('account_status'), 'awaiting_admin_review:') === 0){
+			$ultimatemember->mail->send( um_user('user_email'), 'approved_email' );
+			$split = explode(':',um_user('account_status'));
+			$this->set_role($split[1]);
 		} else {
 			$this->password_reset_hash();
 			$ultimatemember->mail->send( um_user('user_email'), 'welcome_email');
@@ -538,6 +545,38 @@ class UM_User {
 		global $ultimatemember;
 		$this->set_status('awaiting_admin_review');
 		$ultimatemember->mail->send( um_user('user_email'), 'pending_email' );
+	}
+
+
+	/**
+	 * @function partial_pending()
+	 *
+	 * @description This method puts a user under manual review by administrator and sends them an optional e-mail.
+	 *
+	 * @usage <?php $ultimatemember->user->pending(); ?>
+	 *
+	 * @returns Puts a user under review and sends them an email optionally.
+	 *
+	 * @example An example of putting a user pending manual review
+
+	<?php
+
+	um_fetch_user( 54 );
+	$ultimatemember->user->pending();
+
+	?>
+
+	 *
+	 *
+	 */
+	function partial_pending(){
+		global $ultimatemember;
+		$role = $this->get_role();
+		$this->set_status('awaiting_admin_review:'.$role);
+		$default_role = um_get_option("default_role");
+		$this->set_role($default_role);
+		$ultimatemember->mail->send( um_user('user_email'), 'pending_email' );
+		$this->auto_login(um_user('ID'));
 	}
 
 

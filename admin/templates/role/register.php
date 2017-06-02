@@ -13,6 +13,7 @@
 					<option value="approved" <?php selected('approved', $ultimatemember->query->get_meta_value('_um_status') ); ?>><?php _e('Auto Approve','ultimatemember'); ?></option>
 					<option value="checkmail" <?php selected('checkmail', $ultimatemember->query->get_meta_value('_um_status') ); ?>><?php _e('Require Email Activation','ultimatemember'); ?></option>
 					<option value="pending" <?php selected('pending', $ultimatemember->query->get_meta_value('_um_status') ); ?>><?php _e('Require Admin Review','ultimatemember'); ?></option>
+					<option value="partial_pending" <?php selected('partial_pending', $ultimatemember->query->get_meta_value('_um_status') ); ?>><?php _e('Require Admin Role Review','ultimatemember'); ?></option>
 				</select>
 
 			</span>

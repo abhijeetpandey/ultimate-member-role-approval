@@ -38,6 +38,19 @@
 	}
 
 	/**
+	 * Account needs admin review but is assigned default role
+	 */
+	add_action('um_post_registration_partial_pending_hook', 'um_post_registration_partial_pending_hook', 10, 2);
+	function um_post_registration_partial_pending_hook($user_id, $args){
+		global $ultimatemember;
+
+		um_fetch_user( $user_id );
+
+		$ultimatemember->user->partial_pending();
+
+	}
+
+	/**
 	 * Add user to wordpress
 	 */
 	add_action('um_add_user_frontend', 'um_add_user_frontend', 10);

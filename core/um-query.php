@@ -131,8 +131,15 @@ class UM_Query {
 				update_user_meta( $user, 'account_status', 'approved' );
 			}
 		} else {
-			$args['meta_query'][] = array(array('key' => 'account_status','value' => $status,'compare' => '='));
+            $status = urldecode($status);
+
+            if($status == 'awaiting_admin_review:'){
+                $args['meta_query'][] = array(array('key' => 'account_status','value' => $status,'compare' => 'LIKE'));
+            }else{
+                $args['meta_query'][] = array(array('key' => 'account_status','value' => $status,'compare' => '='));
+            }
 		}
+
 		$users = new WP_User_Query( $args );
 		return count($users->results);
 	}
@@ -145,11 +152,18 @@ class UM_Query {
 
 		$args = array( 'fields' => 'ID', 'number' => $number, 'orderby' => 'user_registered', 'order' => 'desc' );
 
+        $compare = "=";
+        $status = urldecode($status);
+        if($status == "awaiting_admin_review:")
+        {
+            $compare = "LIKE";
+        }
+
 		$args['meta_query'][] = array(
 			array(
 				'key'     => 'account_status',
 				'value'   => $status,
-				'compare' => '='
+				'compare' => $compare
 			)
 		);
 
